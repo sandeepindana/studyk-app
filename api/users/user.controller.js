@@ -84,6 +84,11 @@ module.exports = {
           });
      },
      updateUser: (req, res) => {
+          const errors = validationResult(req);
+          if (!errors.isEmpty()) {
+               return res.status(400).json({ errors: errors.array() });
+          }
+
           // console.log(req.body);
           const body = req.body;
           update(body, (err, results) => {

@@ -16,7 +16,11 @@ router.get("/index", checkToken, getUsers);
 router.get("/show/:id", checkToken, getUserById);
 
 // Route update user details
-router.patch("/update", check('password').isLength({ min: 6 }).withMessage('password must be at least 6 characters'), checkToken, updateUser);
+router.patch("/update",
+     check('name').notEmpty().withMessage('Name is required'),
+     check('mobile').isInt({ min: 0, max: 10 }).withMessage('check given mobile number'),
+     checkToken,
+     updateUser);   //updateUser
 
 // Route delete a user
 router.post("/delete", checkToken, deleteUser);
