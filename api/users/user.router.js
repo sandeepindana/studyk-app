@@ -18,7 +18,7 @@ router.get("/show/:id", checkToken, getUserById);
 // Route update user details
 router.patch("/update",
      check('name').notEmpty().withMessage('Name is required'),
-     check('mobile').isInt({ min: 0, max: 10 }).withMessage('check given mobile number'),
+     check('mobile').isNumeric().isMobilePhone().withMessage('check given mobile number'),
      checkToken,
      updateUser);   //updateUser
 
