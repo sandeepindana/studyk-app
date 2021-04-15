@@ -1,6 +1,7 @@
 const { create, index, show, update, destroy, getUserByEmail } = require("./user.service");
 
-const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+// const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
 
 const { sign } = require("jsonwebtoken");
 
