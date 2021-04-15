@@ -67,6 +67,7 @@ module.exports = {
           });
      },
      getUserById: (req, res) => {
+          // console.log('session ID : ' + JSON.stringify(req.session.user));
           const id = req.params.id;
           show(id, (err, results) => {
                if (err) {
@@ -140,6 +141,7 @@ module.exports = {
                     });
                }
                if (!results) {
+
                     return res.json({
                          status: "error",
                          message: "Invalid email or password"
@@ -155,10 +157,30 @@ module.exports = {
                          expiresIn: "1h"
                     });
 
+                    // console.log(decoded.result);
+                    // req.session.user = decoded.results;
+                    // {
+                    //      id: 1,
+                    //      name: 'bunny',
+                    //      last_name: 'smith',
+                    //      email: 'bunny@dummy.com',
+                    //      mobile: '0',
+                    //      address: 'main street',
+                    //      country: 0,
+                    //      state: 0,
+                    //      city: 'san francisco',
+                    //      user_status: 1,
+                    //      email_verified: 0,
+                    //      created_at: '2021-04-12T10:57:41.000Z',
+                    //      updated_at: '2021-04-12T10:57:41.000Z',
+                    //      user_type: 1
+                    //    }
+
                     return res.status(200).json({
                          status: 'success',
                          message: "Login Successfully",
-                         token: jsontoken
+                         token: jsontoken,
+                         user: results
                     });
                } else {
                     return res.json({
@@ -166,7 +188,6 @@ module.exports = {
                          message: "Invalid email or password"
                     });
                }
-
           });
      }
 }
