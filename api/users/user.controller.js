@@ -1,4 +1,4 @@
-const { create, index, show, update, destroy, getUserByEmail } = require("./user.service");
+const { create, index, show, update, destroy, getUserByEmail, getProductsList, getPlansList, getProductDetails, getPlanDetails } = require("./user.service");
 
 // const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
@@ -190,5 +190,75 @@ module.exports = {
                     });
                }
           });
-     }
+     },
+     getProductsList: (req, res) => {
+          getProductsList((err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getProductDetails: (req, res) => {
+          const proId = req.params.proId;
+          getProductDetails(proId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getPlansList: (req, res) => {
+          const proId = req.params.proId;
+          getPlansList(proId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getPlanDetails: (req, res) => {
+
+          // return res.json(req.params);
+
+          const planId = req.params.planId;
+          getPlanDetails(planId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
 }

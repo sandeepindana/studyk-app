@@ -1,4 +1,4 @@
-const { createUser, getUsers, getUserById, updateUser, deleteUser, loginUser } = require("./user.controller");
+const { createUser, getUsers, getUserById, updateUser, deleteUser, loginUser, getProductsList, getPlansList, getProductDetails, getPlanDetails } = require("./user.controller");
 const router = require("express").Router();
 const { checkToken } = require("../../auth/token_validation");
 const { body, check, validationResult } = require('express-validator');
@@ -24,6 +24,18 @@ router.patch("/update",
 
 // Route delete a user
 router.post("/delete", checkToken, deleteUser);
+
+// Route Products list a user
+router.get("/productslist", checkToken, getProductsList);
+
+// Route Get Product Details
+router.get("/productdetails/:proId", checkToken, getProductDetails);
+
+// Route Plans list a user
+router.get("/planslist/:proId", checkToken, getPlansList);
+
+// Route Plan Details
+router.get("/plandetails/:planId", checkToken, getPlanDetails);
 
 // Route Login Api
 router.post("/login",

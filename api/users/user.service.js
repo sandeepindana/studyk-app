@@ -64,5 +64,50 @@ module.exports = {
                     // console.log(results);
                     return callBack(null, results[0]);
                });
-     }
+     },
+     getProductsList: (callBack) => {
+          let sql = "SELECT * FROM `tbl_products`";
+          pool.query(
+               sql, [], (error, results, fields) => {
+                    if (error) {
+                         callBack(error);
+                    }
+                    return callBack(null, results);
+               }
+          )
+     },
+     getProductDetails: (proId, callBack) => {
+          let sql = "SELECT * FROM `tbl_products` WHERE `stripe_pro_id`= ?";
+          pool.query(
+               sql, [proId], (error, results, fields) => {
+                    if (error) {
+                         callBack(error);
+                    }
+                    return callBack(null, results[0]);
+               }
+          )
+     },
+     getPlansList: (proId, callBack) => {
+          let sql = "SELECT * FROM `tbl_plans` WHERE `stripe_pro_id`= ?";
+          pool.query(
+               sql, [proId], (error, results, fields) => {
+                    if (error) {
+                         callBack(error);
+                    }
+                    return callBack(null, results);
+               }
+          )
+     },
+     getPlanDetails: (proId, callBack) => {
+          console.log('Services getPlanDetails');
+          let sql = "SELECT * FROM `tbl_plans` WHERE `stripe_plan_id`= ?";
+          pool.query(
+               sql, [proId], (error, results, fields) => {
+                    if (error) {
+                         callBack(error);
+                    }
+                    return callBack(null, results[0]);
+               }
+          )
+     },
 };
