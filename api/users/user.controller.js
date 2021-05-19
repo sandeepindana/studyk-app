@@ -1,4 +1,4 @@
-const { create, index, show, update, destroy, getUserByEmail, getProductsList, getPlansList, getProductDetails, getPlanDetails } = require("./user.service");
+const { create, index, show, update, destroy, getUserByEmail, getProductsList, getPlansList, getProductDetails, getPlanDetails, makePayment, getSubjectCategoryList, getSubjectCategoryDetails, getSubjectSubCategoryList, getSubjectSubCategoryDetails } = require("./user.service");
 
 // const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
@@ -6,6 +6,7 @@ const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
 
 const { body, check, validationResult } = require('express-validator');
+
 
 module.exports = {
      createUser: (req, res) => {
@@ -17,7 +18,6 @@ module.exports = {
           const body = req.body;
           const salt = genSaltSync(10);
           body.password = hashSync(body.password, salt);
-
 
           getUserByEmail(body.email, (err, results) => {
                if (err) {
@@ -69,7 +69,12 @@ module.exports = {
      },
      getUserById: (req, res) => {
           // console.log('session ID : ' + JSON.stringify(req.session.user));
-          const id = req.params.id;
+          // console.log("Auth Data");
+          // console.log(req.authData);
+          const authData = req.authData.result;
+          // console.log(authData.id);
+          // const id = req.params.id;
+          const id = authData.id;
           show(id, (err, results) => {
                if (err) {
                     console.log(err);
@@ -247,6 +252,104 @@ module.exports = {
 
           const planId = req.params.planId;
           getPlanDetails(planId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     makePayment: (req, res) => {
+          //await
+          // const token = 
+
+          // 
+
+          const body = req.body;
+
+          makePayment(body, (err, results) => {
+
+               // return res.json(results);
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Error. Try again later..."
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Payment Successfully",
+               })
+          });
+
+
+          // return res.json(req.body);
+     },
+     getSubjectCategoryList: (req, res) => {
+          const authData = req.authData.result;
+          // console.log(authData.id);
+          // const id = req.params.id;
+          const id = authData.id;
+          getSubjectCategoryList(id, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getSubjectCategoryDetails: (req, res) => {
+          let catId = req.params.catId;
+          getSubjectCategoryDetails(catId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getSubjectSubCategoryList: (req, res) => {
+          let catId = req.params.catId;
+          getSubjectSubCategoryList(catId, (err, results) => {
+               if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                         status: "error",
+                         message: "Database connection error"
+                    });
+               }
+               return res.status(200).json({
+                    status: 'success',
+                    message: "Data available",
+                    data: results
+               })
+          });
+     },
+     getSubjectSubCategoryDetails: (req, res) => {
+          let catId = req.params.catId;
+          getSubjectSubCategoryDetails(catId, (err, results) => {
                if (err) {
                     console.log(err);
                     return res.status(500).json({

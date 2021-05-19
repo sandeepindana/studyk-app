@@ -14,6 +14,8 @@ module.exports = {
                               message: "Invalid Token"
                          })
                     } else {
+                         // console.log(decoded);
+                         req.authData = decoded;
                          next();
                     }
                })
